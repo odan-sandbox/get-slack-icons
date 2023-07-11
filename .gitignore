@@ -49,3 +49,8 @@ jspm_packages
 .yarn-integrity
 
 dist/
+
+members.json
+names.txt
+icons
+.env
