@@ -16,7 +16,7 @@ async function main(): Promise<void> {
     .map((name) => name.trim().replace(/(@|＠)/, ""));
 
   for (const name of names) {
-    const iconFile = `./icons/${name}.jpg`;
+    const iconFile = `./icons/${name.replace(/\//, "")}.jpg`;
     if (existsSync(iconFile)) {
       console.log(`Already exists: ${name}`);
       continue;
@@ -38,7 +38,9 @@ async function main(): Promise<void> {
 
     const iconUrl = member.profile?.image_1024 ?? member.profile?.image_512;
 
-    exec(`curl -o ${iconFile} ${iconUrl}`);
+    await exec(`curl -o "${iconFile}" ${iconUrl}`, {
+      maxBuffer: 1024 * 1024 * 10,
+    });
     await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 }
